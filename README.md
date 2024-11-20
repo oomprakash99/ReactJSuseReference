@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# React `useRef` and `useState` Example
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository demonstrates the use of React's `useRef` and `useState` hooks in a simple component.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **useRef Hook**: Used to persist a mutable value across renders without causing a re-render.
+- **useState Hook**: Handles state updates and re-renders the component when state changes.
+- **React `createRef`**: Used to reference a DOM element and manipulate it directly.
 
-### `npm start`
+## Component Code
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```jsx
+import { useState, createRef, useRef } from "react";
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+function UseRef() {
+    const [data2, updateData2] = useState({ num: 0 });
+    const [inputValue, updateValue] = useState("");
 
-### `npm test`
+    const elem = createRef(); // Create a reference to the DOM element
+    const data = useRef(0); // Persistent reference that doesn't trigger re-renders
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    // Updates the `useRef` value and logs it to the console
+    function handleRef() {
+        data.current = data.current + 1;
+        console.log(data);
+    }
 
-### `npm run build`
+    // Updates the state value, causing a re-render
+    function handleState() {
+        updateData2({ num: data2.num + 1 });
+    }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    // Captures the input value using the `createRef` reference
+    function handleFocus() {
+        updateValue(elem.current.value);
+    }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    return (
+        <div>
+            <h1>UseRef</h1>
+            <h3>Ref Value: {data.current}</h3>
+            <button onClick={handleRef}>Click to Update Ref</button>
+            <h3>State Value: {data2.num}</h3>
+            <button onClick={handleState}>Click to Update State</button>
+            <h3>{inputValue}</h3>
+            <input
+                onChange={handleFocus}
+                placeholder="Enter a Username"
+                ref={elem}
+            />
+        </div>
+    );
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default UseRef;
